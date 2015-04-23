@@ -1,0 +1,20 @@
+{
+  "name": "react-svg-flexbox",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test-serve" : "webpack-dev-server --content-base test/ --hot --inline"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "css-layout": "0.0.2"
+  },
+  "devDependencies": {
+    "babel-core": "^5.1.10",
+    "babel-loader": "^5.0.0",
+    "webpack": "^1.8.5",
+    "webpack-dev-server": "^1.8.0"
+  }
+}

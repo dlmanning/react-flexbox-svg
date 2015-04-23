@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Flexbox reference</title>
+  <style>
+    #flex-container {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+
+      display: flex;
+      
+      flex-direction: row;
+      flex-wrap: wrap;
+      flex: 1;
+      justify-content: space-between;
+    }
+
+    .flex-item {
+      background: tomato;
+      padding: 5px;
+      width: 200px;
+      height: 150px;
+      margin-top: 10px;
+      
+      line-height: 150px;
+      color: white;
+      font-weight: bold;
+      font-size: 3em;
+      text-align: center;
+    }
+
+    .flex-item-small {
+      background: blue;
+      padding: 5px;
+      width: 20px;
+      height: 15px;
+      margin-top: 1px;
+      
+      line-height: 15px;
+      color: white;
+      font-weight: bold;
+      font-size: 0.5em;
+      text-align: center;      
+    }
+  </style>
+</head>
+<body>
+  <ul id="flex-container">
+    <li class="flex-item">
+      <ul id="flex-container">
+        <li class="flex-item-small">1</li>
+        <li class="flex-item-small">2</li>
+        <li class="flex-item-small">3</li>
+        <li class="flex-item-small">4</li>
+        <li class="flex-item-small">5</li>
+        <li class="flex-item-small">6</li>
+        <li class="flex-item-small">7</li>
+        <li class="flex-item-small">8</li>
+        <li class="flex-item-small">9</li>
+        <li class="flex-item-small">10</li>
+      </ul>
+    </li>
+    <li class="flex-item">b</li>
+    <li class="flex-item">c</li>
+    <li class="flex-item">d</li>
+    <li class="flex-item">e</li>
+  </ul>
+</body>
+</html>
