@@ -66,7 +66,7 @@ export class FlexContext extends Component {
   }
 
   render () {
-    console.log('Rendering FlexContainer');
+    console.log('Rendering FlexContext');
     return <g>{this.props.children}</g>;
   }
 

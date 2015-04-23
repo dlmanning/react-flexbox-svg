@@ -44,7 +44,6 @@ export default class App extends Component {
       board[i] = i;
     }
 
-
     return (
       <svg height="600" width="600">
         <FlexContext layout={containerStyle}>
