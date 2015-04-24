@@ -4,30 +4,30 @@ import computeLayout from 'css-layout';
 
 const { Component } = React;
 
-const styles = { children: [] };
+const stylesRoot = { children: [] };
 
-function setLayout (style, layout = styles, path = []) {
-  if (layout.style === undefined) {
-    layout.style = style;
+function setStyle (style, styles = stylesRoot, path = []) {
+  if (styles.style === undefined) {
+    styles.style = style;
   } else {
-    let childLayout = { style: style, children: [] };
-    layout.children.push(childLayout);
-    path.push(layout.children.length - 1);
+    let childStyle = { style: style, children: [] };
+    styles.children.push(childStyle);
+    path.push(styles.children.length - 1);
 
-    layout = childLayout;
+    styles = childStyle;
   }
 
   return {
     path: path.slice(),
-    setLayout : function (style) {
-      return setLayout(style, layout, path.slice());
+    setStyle : function (childStyle) {
+      return setStyle(childStyle, styles, path.slice());
     }
   }
 }
 
 export class FlexContext extends Component {
   static childContextTypes = {
-    setLayout: React.PropTypes.func.isRequired,
+    setStyle: React.PropTypes.func.isRequired,
     subscribeToLayoutChanges: React.PropTypes.func.isRequired
   }
 
@@ -38,8 +38,8 @@ export class FlexContext extends Component {
     this.layoutNotifier = new EventEmitter();
 
     const layout = props.layout || {}
-    const { setLayout: layoutFunc } = setLayout(layout);
-    this.setLayout = layoutFunc;
+    const { setStyle: layoutFunc } = setStyle(layout);
+    this.setStyle = layoutFunc;
   }
 
   subscribeToLayoutChanges = (cb) => {
@@ -48,7 +48,7 @@ export class FlexContext extends Component {
 
   getChildContext () {
     return {
-      setLayout: this.setLayout,
+      setStyle: this.setStyle,
       subscribeToLayoutChanges: this.subscribeToLayoutChanges
     }
   }
@@ -58,10 +58,10 @@ export class FlexContext extends Component {
   }
 
   componentDidMount () {
-    const flexStyles = computeLayout(styles);
-    this.setState({ flexStyles: flexStyles });
+    const flexLayout = computeLayout(stylesRoot);
+    this.setState({ layout: flexLayout });
 
-    this.layoutNotifier.emit('layout-update', flexStyles);
+    this.layoutNotifier.emit('layout-update', flexLayout);
   }
 }
 
@@ -69,12 +69,12 @@ export const FlexBox = (Composed, style = {}) => class extends Component {
   static displayName = 'FlexBox';
 
   static contextTypes = {
-    setLayout: React.PropTypes.func.isRequired,
+    setStyle: React.PropTypes.func.isRequired,
     subscribeToLayoutChanges: React.PropTypes.func.isRequired
   }
 
   static childContextTypes = {
-    setLayout: React.PropTypes.func.isRequired
+    setStyle: React.PropTypes.func.isRequired
   }
 
   getMyLayout (layout) {
@@ -88,9 +88,9 @@ export const FlexBox = (Composed, style = {}) => class extends Component {
   constructor (props, context) {
     super();
 
-    const { setLayout: layoutFunc, path} = context.setLayout(style);
+    const { setStyle: setStyleFunc, path} = context.setStyle(style);
 
-    this.setLayout = layoutFunc;
+    this.setStyle = setStyleFunc;
     this.pathToNode = path;
     this.state = { layout: { top: 0, left: 0, width: 0, height: 0} };
   }
@@ -103,13 +103,13 @@ export const FlexBox = (Composed, style = {}) => class extends Component {
 
   getChildContext () {
     return {
-      setLayout: this.setLayout
+      setStyle: this.setStyle
     }
   }
 
   render () {
     const transformation = `translate(${this.state.layout.left},${this.state.layout.top})`
-    return <g transform={transformation}><Composed {...this.props} layout={this.state.layout}/></g>;
+    return <g transform={transformation}><Composed layout={this.state.layout} {...this.props}/></g>;
   }
 
 }

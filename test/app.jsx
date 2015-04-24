@@ -3,8 +3,6 @@ import { FlexContext, FlexBox } from 'flex';
 
 const { Component } = React;
 
-// React.Children.map(this.props.children, React.cloneElement)
-
 class Container extends Component {
   render () {
     return (
@@ -13,7 +11,8 @@ class Container extends Component {
           x="0"
           y="0"
           width={this.props.layout.width}
-          height={this.props.layout.height} />
+          height={this.props.layout.height}
+        />
         {this.props.children}
       </g>
     );
