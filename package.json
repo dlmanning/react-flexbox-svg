@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "react": "0.14.0-alpha",
     "css-layout": "0.0.2",
     "wolfy87-eventemitter": "^4.2.11"
   },
