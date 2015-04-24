@@ -12,7 +12,7 @@ module.exports = {
         exclude: /node_modules/,
         loader: 'babel-loader',
         query: {
-          optional: ["es7.decorators", "es7.classProperties", "optimisation.react.constantElements"]
+          optional: ["es7.decorators", "es7.classProperties"]
         }
       }
     ]

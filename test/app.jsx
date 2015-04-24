@@ -3,12 +3,13 @@ import { FlexContext, FlexBox } from 'flex';
 
 const { Component } = React;
 
+// React.Children.map(this.props.children, React.cloneElement)
+
 class Container extends Component {
   render () {
-    console.log('Rendering Container');
     return (
       <g>
-        <rect fill={this.props.color} 
+        <rect fill={this.props.color}
           x="0"
           y="0"
           width={this.props.layout.width}
@@ -23,6 +24,7 @@ const Backdrop = FlexBox(Container, {
   flexDirection: 'row',
   flex: 1,
   padding: 40,
+  flexWrap: 'wrap',
   justifyContent: 'flex-start'
 });
 
@@ -48,7 +50,16 @@ export default class App extends Component {
       <svg height="600" width="600">
         <FlexContext layout={containerStyle}>
           <Backdrop color="#CE6E09">
-            {board.map(id => <Square key={id} color={id % 2 ? '#470300' : '#F6B968'} />)}
+            {board.map(id =>
+              <Square
+                key={id}
+                color={
+                  Math.floor(id / 8) % 2 ?
+                    id % 2 ? '#470300' : '#F6B968' :
+                    id % 2 ? '#F6B968' : '#470300'
+                }
+              />
+            )}
           </Backdrop>
         </FlexContext>
       </svg>

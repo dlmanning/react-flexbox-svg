@@ -1,4 +1,5 @@
 import React from 'react';
+import EventEmitter from 'wolfy87-eventemitter';
 import computeLayout from 'css-layout';
 
 const { Component } = React;
@@ -20,60 +21,47 @@ function setLayout (style, layout = styles, path = []) {
     path: path.slice(),
     setLayout : function (style) {
       return setLayout(style, layout, path.slice());
-    } 
+    }
   }
 }
 
 export class FlexContext extends Component {
   static childContextTypes = {
     setLayout: React.PropTypes.func.isRequired,
-    getLayout: React.PropTypes.func.isRequired
+    subscribeToLayoutChanges: React.PropTypes.func.isRequired
   }
 
   constructor (props, context) {
     super();
 
     this.state = {};
+    this.layoutNotifier = new EventEmitter();
 
     const layout = props.layout || {}
     const { setLayout: layoutFunc } = setLayout(layout);
     this.setLayout = layoutFunc;
   }
 
-  getLayout = (path = []) => {
-    if (this.state.flexStyles !== undefined && path.length > 0) {
-      let layout = this.state.flexStyles;
-      path.forEach(childIndex => {
-        layout = layout.children[childIndex]
-      });
-
-      return layout;
-    } else {
-      return {
-        top: 0,
-        left: 0,
-        width: 0,
-        height: 0
-      };
-    }
+  subscribeToLayoutChanges = (cb) => {
+    this.layoutNotifier.on('layout-update', cb);
   }
 
   getChildContext () {
     return {
       setLayout: this.setLayout,
-      getLayout: this.getLayout
+      subscribeToLayoutChanges: this.subscribeToLayoutChanges
     }
   }
 
   render () {
-    console.log('Rendering FlexContext');
     return <g>{this.props.children}</g>;
   }
 
   componentDidMount () {
-    console.log('FlexContainer did mount');
     const flexStyles = computeLayout(styles);
     this.setState({ flexStyles: flexStyles });
+
+    this.layoutNotifier.emit('layout-update', flexStyles);
   }
 }
 
@@ -82,11 +70,19 @@ export const FlexBox = (Composed, style = {}) => class extends Component {
 
   static contextTypes = {
     setLayout: React.PropTypes.func.isRequired,
-    getLayout: React.PropTypes.func.isRequired
+    subscribeToLayoutChanges: React.PropTypes.func.isRequired
   }
 
   static childContextTypes = {
     setLayout: React.PropTypes.func.isRequired
+  }
+
+  getMyLayout (layout) {
+    this.pathToNode.forEach(childIndex => {
+      layout = layout.children[childIndex]
+    });
+
+    return layout;
   }
 
   constructor (props, context) {
@@ -96,6 +92,13 @@ export const FlexBox = (Composed, style = {}) => class extends Component {
 
     this.setLayout = layoutFunc;
     this.pathToNode = path;
+    this.state = { layout: { top: 0, left: 0, width: 0, height: 0} };
+  }
+
+  componentDidMount () {
+    this.context.subscribeToLayoutChanges(layout => {
+      this.setState({ layout: this.getMyLayout(layout) });
+    });
   }
 
   getChildContext () {
@@ -105,9 +108,8 @@ export const FlexBox = (Composed, style = {}) => class extends Component {
   }
 
   render () {
-    const layout = this.context.getLayout(this.pathToNode);
-    const transformation = `translate(${layout.left},${layout.top})`
-    return <g transform={transformation}><Composed {...this.props} layout={layout}/></g>;
+    const transformation = `translate(${this.state.layout.left},${this.state.layout.top})`
+    return <g transform={transformation}><Composed {...this.props} layout={this.state.layout}/></g>;
   }
 
 }
