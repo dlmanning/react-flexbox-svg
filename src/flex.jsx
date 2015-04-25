@@ -1,6 +1,7 @@
 import React from 'react';
 import EventEmitter from 'wolfy87-eventemitter';
 import computeLayout from 'css-layout';
+import isFlexBoxProperty from './flexbox-props';
 
 const { Component } = React;
 
@@ -65,7 +66,7 @@ export class FlexContext extends Component {
   }
 }
 
-export const FlexBox = (Composed, style = {}) => class extends Component {
+export const FlexBox = (Composed, componentStyles = {}) => class extends Component {
   static displayName = 'FlexBox';
 
   static contextTypes = {
@@ -88,11 +89,27 @@ export const FlexBox = (Composed, style = {}) => class extends Component {
   constructor (props, context) {
     super();
 
-    const { setStyle: setStyleFunc, path} = context.setStyle(style);
+    const styles = Object.assign(componentStyles, props.styles);
+
+    const { svgStyles, flexStyles } = Object.keys(styles).reduce((partitions, property) => {
+      if (isFlexBoxProperty(property)) {
+        partitions.flexStyles[property] = styles[property];
+      } else {
+        partitions.svgStyles[property] = styles[property];
+      }
+
+      return partitions;
+    }, { svgStyles: {}, flexStyles: {} });
+
+    const { setStyle: setStyleFunc, path} = context.setStyle(flexStyles);
 
     this.setStyle = setStyleFunc;
     this.pathToNode = path;
-    this.state = { layout: { top: 0, left: 0, width: 0, height: 0} };
+
+    this.state = {
+      layout: { top: 0, left: 0, width: 0, height: 0},
+      styles: svgStyles
+    };
   }
 
   componentDidMount () {
@@ -109,7 +126,11 @@ export const FlexBox = (Composed, style = {}) => class extends Component {
 
   render () {
     const transformation = `translate(${this.state.layout.left},${this.state.layout.top})`
-    return <g transform={transformation}><Composed layout={this.state.layout} {...this.props}/></g>;
+    return (
+      <g transform={transformation}>
+        <Composed layout={this.state.layout} style={this.state.styles} {...this.props}/>
+      </g>
+    );
   }
 
 }

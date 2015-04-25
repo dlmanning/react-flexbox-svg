@@ -7,7 +7,9 @@ class Container extends Component {
   render () {
     return (
       <g>
-        <rect fill={this.props.color}
+        <rect
+          style={this.props.style}
+          fill={this.props.color}
           x="0"
           y="0"
           width={this.props.layout.width}
@@ -20,6 +22,8 @@ class Container extends Component {
 }
 
 const Backdrop = FlexBox(Container, {
+  stroke: 'black',
+  strokeWidth: 5,
   flexDirection: 'row',
   flex: 1,
   padding: 40,
@@ -28,6 +32,7 @@ const Backdrop = FlexBox(Container, {
 });
 
 const Square = FlexBox(Container, {
+  stroke: 'black',
   height: 40,
   width: 40
 });
