@@ -5,9 +5,12 @@ import isFlexBoxProperty from './flexbox-props';
 
 const { Component } = React;
 
-const stylesRoot = { children: [] };
+let stylesRoot = { children: [] };
 
-function setStyle (style, styles = stylesRoot, path = []) {
+const initTime = Date.now();
+
+function setStyle (style = {}, styles = stylesRoot, path = []) {
+  log('setStyle called');
   if (styles.style === undefined) {
     styles.style = style;
   } else {
@@ -28,54 +31,80 @@ function setStyle (style, styles = stylesRoot, path = []) {
 
 export class FlexContext extends Component {
   static childContextTypes = {
-    setStyle: React.PropTypes.func.isRequired,
-    subscribeToLayoutChanges: React.PropTypes.func.isRequired
+    styleTools: React.PropTypes.object.isRequired,
+    waitForLayoutCalculation: React.PropTypes.func.isRequired
   }
 
   constructor (props, context) {
     super();
 
-    this.state = {};
     this.layoutNotifier = new EventEmitter();
-
-    const layout = props.layout || {}
-    const { setStyle: layoutFunc } = setStyle(layout);
-    this.setStyle = layoutFunc;
+    this.styleTools = { }
   }
 
-  subscribeToLayoutChanges = (cb) => {
-    this.layoutNotifier.on('layout-update', cb);
+  waitForLayoutCalculation = (cb) => {
+    this.layoutNotifier.once('layout-update', cb);
   }
 
   getChildContext () {
     return {
-      setStyle: this.setStyle,
-      subscribeToLayoutChanges: this.subscribeToLayoutChanges
+      styleTools: this.styleTools,
+      waitForLayoutCalculation: this.waitForLayoutCalculation
     }
   }
 
   render () {
+    log('FlexContext rendering');
     return <g>{this.props.children}</g>;
   }
 
-  componentDidMount () {
-    const flexLayout = computeLayout(stylesRoot);
-    this.setState({ layout: flexLayout });
+  startNewStyleTree () {
+    stylesRoot = { children: [] };
+    window.FlexStyles = stylesRoot;
+    const { setStyle: layoutFunc } = setStyle({});
+    this.styleTools.setStyle = layoutFunc;
+  }
 
+  computeLayoutAndBroadcastResults () {
+    const flexLayout = computeLayout(stylesRoot);
     this.layoutNotifier.emit('layout-update', flexLayout);
   }
+
+  componentWillMount () {
+    log('FlexContext will mount');
+
+    this.startNewStyleTree();
+  }
+
+  componentDidMount () {
+    log('FlexContext did mount');
+
+    this.computeLayoutAndBroadcastResults();
+  }
+
+  componentWillUpdate () {
+    log('FlexContext will update');
+    this.startNewStyleTree();
+  }
+
+  componentDidUpdate () {
+    log('FlexContext did update');
+
+    this.computeLayoutAndBroadcastResults();
+  }
+
 }
 
 export const FlexBox = (Composed, componentStyles = {}) => class extends Component {
   static displayName = 'FlexBox';
 
   static contextTypes = {
-    setStyle: React.PropTypes.func.isRequired,
-    subscribeToLayoutChanges: React.PropTypes.func.isRequired
+    styleTools: React.PropTypes.object.isRequired,
+    waitForLayoutCalculation: React.PropTypes.func.isRequired
   }
 
   static childContextTypes = {
-    setStyle: React.PropTypes.func.isRequired
+    styleTools: React.PropTypes.object.isRequired
   }
 
   getMyLayout (layout) {
@@ -90,41 +119,67 @@ export const FlexBox = (Composed, componentStyles = {}) => class extends Compone
     super();
 
     const styles = Object.assign(componentStyles, props.styles);
+    const { svgStyles, flexStyles } = partitionStyles(styles)
 
-    const { svgStyles, flexStyles } = Object.keys(styles).reduce((partitions, property) => {
-      if (isFlexBoxProperty(property)) {
-        partitions.flexStyles[property] = styles[property];
-      } else {
-        partitions.svgStyles[property] = styles[property];
-      }
-
-      return partitions;
-    }, { svgStyles: {}, flexStyles: {} });
-
-    const { setStyle: setStyleFunc, path} = context.setStyle(flexStyles);
-
-    this.setStyle = setStyleFunc;
-    this.pathToNode = path;
+    this.flexStyles = flexStyles;
+    this.styleTools = {};
 
     this.state = {
-      layout: { top: 0, left: 0, width: 0, height: 0},
+      layout: { top: 0, left: 0, width: 0, height: 0 },
       styles: svgStyles
     };
   }
 
-  componentDidMount () {
-    this.context.subscribeToLayoutChanges(layout => {
+  componentWillMount () {
+    const { setStyle: setStyleFunc, path} = this.context.styleTools.setStyle(this.flexStyles);
+
+    this.styleTools.setStyle = setStyleFunc;
+    this.pathToNode = path;
+
+    this.context.waitForLayoutCalculation(layout => {
       this.setState({ layout: this.getMyLayout(layout) });
     });
   }
 
+  componentDidMount () {
+    log('FlexBox did mount');
+  }
+
+  componentWillReceiveProps () {
+    log('FlexBox will receive props');
+
+    const { setStyle: setStyleFunc, path} = this.context.styleTools.setStyle(this.flexStyles);
+
+    this.styleTools.setStyle = setStyleFunc;
+    this.pathToNode = path;
+
+    this.context.waitForLayoutCalculation(layout => {
+      this.setState({ layout: this.getMyLayout(layout) });
+    });
+
+  }
+
+  componentWillUpdate () {
+    log('FlexBox will update')
+  }
+
+  componentDidUpdate () {
+    log('FlexBox did update');
+  }
+
+
+  componentWillUnmount () {
+    log('FlexBox will unmount');
+  }
+
   getChildContext () {
     return {
-      setStyle: this.setStyle
+      styleTools: this.styleTools
     }
   }
 
   render () {
+    log('FlexBox rendering');
     const transformation = `translate(${this.state.layout.left},${this.state.layout.top})`
     return (
       <g transform={transformation}>
@@ -133,4 +188,20 @@ export const FlexBox = (Composed, componentStyles = {}) => class extends Compone
     );
   }
 
+}
+
+function partitionStyles (styles) {
+  return Object.keys(styles).reduce((partitions, property) => {
+    if (isFlexBoxProperty(property)) {
+      partitions.flexStyles[property] = styles[property];
+    } else {
+      partitions.svgStyles[property] = styles[property];
+    }
+
+    return partitions;
+  }, { svgStyles: {}, flexStyles: {} });
+}
+
+function log (str) {
+  console.log(Date.now() - initTime + ': ' + str)
 }
