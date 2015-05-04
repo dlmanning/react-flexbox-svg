@@ -7,10 +7,7 @@ const { Component } = React;
 
 let stylesRoot = { children: [] };
 
-const initTime = Date.now();
-
 function setStyle (style = {}, styles = stylesRoot, path = []) {
-  log('setStyle called');
   if (styles.style === undefined) {
     styles.style = style;
   } else {
@@ -36,10 +33,10 @@ export class FlexContext extends Component {
   }
 
   constructor (props, context) {
-    super();
+    super(props);
 
     this.layoutNotifier = new EventEmitter();
-    this.styleTools = { }
+    this.styleTools = {};
   }
 
   waitForLayoutCalculation = (cb) => {
@@ -54,14 +51,12 @@ export class FlexContext extends Component {
   }
 
   render () {
-    log('FlexContext rendering');
     return <g>{this.props.children}</g>;
   }
 
   startNewStyleTree () {
     stylesRoot = { children: [] };
-    window.FlexStyles = stylesRoot;
-    const { setStyle: layoutFunc } = setStyle({});
+    const { setStyle: layoutFunc } = setStyle();
     this.styleTools.setStyle = layoutFunc;
   }
 
@@ -71,25 +66,18 @@ export class FlexContext extends Component {
   }
 
   componentWillMount () {
-    log('FlexContext will mount');
-
     this.startNewStyleTree();
   }
 
   componentDidMount () {
-    log('FlexContext did mount');
-
     this.computeLayoutAndBroadcastResults();
   }
 
   componentWillUpdate () {
-    log('FlexContext will update');
     this.startNewStyleTree();
   }
 
   componentDidUpdate () {
-    log('FlexContext did update');
-
     this.computeLayoutAndBroadcastResults();
   }
 
@@ -116,7 +104,7 @@ export const FlexBox = (Composed, componentStyles = {}) => class extends Compone
   }
 
   constructor (props, context) {
-    super();
+    super(props);
 
     const styles = Object.assign(componentStyles, props.styles);
     const { svgStyles, flexStyles } = partitionStyles(styles)
@@ -141,13 +129,7 @@ export const FlexBox = (Composed, componentStyles = {}) => class extends Compone
     });
   }
 
-  componentDidMount () {
-    log('FlexBox did mount');
-  }
-
   componentWillReceiveProps () {
-    log('FlexBox will receive props');
-
     const { setStyle: setStyleFunc, path} = this.context.styleTools.setStyle(this.flexStyles);
 
     this.styleTools.setStyle = setStyleFunc;
@@ -159,19 +141,6 @@ export const FlexBox = (Composed, componentStyles = {}) => class extends Compone
 
   }
 
-  componentWillUpdate () {
-    log('FlexBox will update')
-  }
-
-  componentDidUpdate () {
-    log('FlexBox did update');
-  }
-
-
-  componentWillUnmount () {
-    log('FlexBox will unmount');
-  }
-
   getChildContext () {
     return {
       styleTools: this.styleTools
@@ -179,7 +148,6 @@ export const FlexBox = (Composed, componentStyles = {}) => class extends Compone
   }
 
   render () {
-    log('FlexBox rendering');
     const transformation = `translate(${this.state.layout.left},${this.state.layout.top})`
     return (
       <g transform={transformation}>
@@ -200,8 +168,4 @@ function partitionStyles (styles) {
 
     return partitions;
   }, { svgStyles: {}, flexStyles: {} });
-}
-
-function log (str) {
-  console.log(Date.now() - initTime + ': ' + str)
 }
