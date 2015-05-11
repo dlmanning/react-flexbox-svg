@@ -22,9 +22,10 @@ class Container extends Component {
 }
 
 const Backdrop = FlexBox(Container, {
+  width: 400,
+  height: 400,
   stroke: 'black',
   strokeWidth: 5,
-  flexDirection: 'row',
   flex: 1,
   padding: 40,
   flexWrap: 'wrap',
@@ -37,11 +38,6 @@ const Square = FlexBox(Container, {
   width: 40
 });
 
-const containerStyle = {
-  width: 400,
-  height: 400
-}
-
 export default class App extends Component {
   render () {
     const board = [];
@@ -52,7 +48,7 @@ export default class App extends Component {
 
     return (
       <svg height="600" width="600">
-        <FlexContext layout={containerStyle}>
+        <FlexContext>
           <Backdrop color="#CE6E09">
             {board.map(id =>
               <Square

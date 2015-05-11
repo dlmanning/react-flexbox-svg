@@ -106,8 +106,8 @@ export const FlexBox = (Composed, componentStyles = {}) => class extends Compone
   constructor (props, context) {
     super(props);
 
-    const styles = Object.assign(componentStyles, props.styles);
-    const { svgStyles, flexStyles } = partitionStyles(styles)
+    const style = Object.assign(componentStyles, props.style);
+    const { svgStyles, flexStyles } = partitionStyles(style)
 
     this.flexStyles = flexStyles;
     this.styleTools = {};
