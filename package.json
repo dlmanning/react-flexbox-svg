@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "peerDependencies": {
-    "react": "0.14.0-alpha"
+    "react": "0.14.0-alpha1"
   },
   "dependencies": {
     "css-layout": "0.0.2",
