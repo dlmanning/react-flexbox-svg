@@ -5,8 +5,6 @@ import isFlexBoxProperty from './flexbox-props';
 
 const { Component } = React;
 
-let stylesRoot = { children: [] };
-
 function setStyle (style = {}, styles = stylesRoot, path = []) {
   if (styles.style === undefined) {
     styles.style = style;
@@ -36,6 +34,8 @@ export class FlexContext extends Component {
     super(props);
 
     this.layoutNotifier = new EventEmitter();
+
+    this.stylesRoot = { children: [] };
     this.styleTools = {};
   }
 
@@ -55,13 +55,13 @@ export class FlexContext extends Component {
   }
 
   startNewStyleTree () {
-    stylesRoot = { children: [] };
-    const { setStyle: layoutFunc } = setStyle();
+    this.stylesRoot = { children: [] };
+    const { setStyle: layoutFunc } = setStyle(undefined, this.stylesRoot);
     this.styleTools.setStyle = layoutFunc;
   }
 
   computeLayoutAndBroadcastResults () {
-    const flexLayout = computeLayout(stylesRoot);
+    const flexLayout = computeLayout(this.stylesRoot);
     this.layoutNotifier.emit('layout-update', flexLayout);
   }
 
