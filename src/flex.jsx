@@ -5,7 +5,7 @@ import isFlexBoxProperty from './flexbox-props';
 
 const { Component } = React;
 
-function setStyle (style = {}, styles = stylesRoot, path = []) {
+function setStyle (style = {}, styles, path = []) {
   if (styles.style === undefined) {
     styles.style = style;
   } else {
@@ -27,7 +27,8 @@ function setStyle (style = {}, styles = stylesRoot, path = []) {
 export class FlexContext extends Component {
   static childContextTypes = {
     styleTools: React.PropTypes.object.isRequired,
-    waitForLayoutCalculation: React.PropTypes.func.isRequired
+    waitForLayoutCalculation: React.PropTypes.func.isRequired,
+    deregister: React.PropTypes.func.isRequired
   }
 
   constructor (props, context) {
@@ -39,6 +40,10 @@ export class FlexContext extends Component {
     this.styleTools = {};
   }
 
+  deregister = cb => {
+    this.layoutNotifier.removeListener('layout-update', cb)
+  }
+
   waitForLayoutCalculation = (cb) => {
     this.layoutNotifier.once('layout-update', cb);
   }
@@ -46,7 +51,8 @@ export class FlexContext extends Component {
   getChildContext () {
     return {
       styleTools: this.styleTools,
-      waitForLayoutCalculation: this.waitForLayoutCalculation
+      waitForLayoutCalculation: this.waitForLayoutCalculation,
+      deregister: this.deregister
     }
   }
 
@@ -88,7 +94,8 @@ export const FlexBox = (Composed, componentStyles = {}) => class extends Compone
 
   static contextTypes = {
     styleTools: React.PropTypes.object.isRequired,
-    waitForLayoutCalculation: React.PropTypes.func.isRequired
+    waitForLayoutCalculation: React.PropTypes.func.isRequired,
+    deregister: React.PropTypes.func.isRequired
   }
 
   static childContextTypes = {
@@ -118,15 +125,21 @@ export const FlexBox = (Composed, componentStyles = {}) => class extends Compone
     };
   }
 
+  handleLayoutCalculation = layout => {
+    this.setState({ layout: this.getMyLayout(layout) });
+  }
+
   componentWillMount () {
     const { setStyle: setStyleFunc, path} = this.context.styleTools.setStyle(this.flexStyles);
 
     this.styleTools.setStyle = setStyleFunc;
     this.pathToNode = path;
 
-    this.context.waitForLayoutCalculation(layout => {
-      this.setState({ layout: this.getMyLayout(layout) });
-    });
+    this.context.waitForLayoutCalculation(this.handleLayoutCalculation);
+  }
+
+  componentWillUnmount () {
+    this.context.deregister(this.handleLayoutCalculation);
   }
 
   componentWillReceiveProps () {
@@ -135,9 +148,7 @@ export const FlexBox = (Composed, componentStyles = {}) => class extends Compone
     this.styleTools.setStyle = setStyleFunc;
     this.pathToNode = path;
 
-    this.context.waitForLayoutCalculation(layout => {
-      this.setState({ layout: this.getMyLayout(layout) });
-    });
+    this.context.waitForLayoutCalculation(this.handleLayoutCalculation);
 
   }
 
