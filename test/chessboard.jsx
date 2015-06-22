@@ -38,7 +38,7 @@ const Square = FlexBox(Container, {
   width: 40
 });
 
-export default class App extends Component {
+export default class Chessboard extends Component {
   render () {
     const board = [];
 

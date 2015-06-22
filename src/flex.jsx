@@ -115,7 +115,6 @@ export const FlexBox = (Composed, componentStyles = {}) => class extends Compone
 
     const style = Object.assign(componentStyles, props.style);
     const { svgStyles, flexStyles } = partitionStyles(style)
-
     this.flexStyles = flexStyles;
     this.styleTools = {};
 
@@ -138,12 +137,13 @@ export const FlexBox = (Composed, componentStyles = {}) => class extends Compone
     this.context.waitForLayoutCalculation(this.handleLayoutCalculation);
   }
 
-  componentWillUnmount () {
-    this.context.deregister(this.handleLayoutCalculation);
+  componentWillReceiveProps () {
+    console.log('FlexItem receiving props');
   }
 
-  componentWillReceiveProps () {
-    const { setStyle: setStyleFunc, path} = this.context.styleTools.setStyle(this.flexStyles);
+  componentWillReceiveProps (nextProps) {
+    const { svgStyles, flexStyles } = partitionStyles(nextProps.style)
+    const { setStyle: setStyleFunc, path} = this.context.styleTools.setStyle(flexStyles);
 
     this.styleTools.setStyle = setStyleFunc;
     this.pathToNode = path;
@@ -159,10 +159,12 @@ export const FlexBox = (Composed, componentStyles = {}) => class extends Compone
   }
 
   render () {
-    const transformation = `translate(${this.state.layout.left},${this.state.layout.top})`
+    const transformation = `translate(${this.state.layout.left},${this.state.layout.top})`;
+    const { style, ...other } = this.props;
+
     return (
       <g transform={transformation}>
-        <Composed layout={this.state.layout} style={this.state.styles} {...this.props}/>
+        <Composed layout={this.state.layout} style={this.state.styles} {...other}/>
       </g>
     );
   }
