@@ -1,3 +1,5 @@
+'use strict';
+
 import { default as React, Component } from 'react';
 // import Chessboard from './chessboard.jsx';
 import Thing from './test.js';

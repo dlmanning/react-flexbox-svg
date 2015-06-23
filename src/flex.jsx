@@ -62,8 +62,7 @@ export class FlexContext extends Component {
 
   startNewStyleTree () {
     this.stylesRoot = { children: [] };
-    const { setStyle: layoutFunc } = setStyle(undefined, this.stylesRoot);
-    this.styleTools.setStyle = layoutFunc;
+    ({ setStyle: this.styleTools.setStyle } = setStyle(undefined, this.stylesRoot));
   }
 
   computeLayoutAndBroadcastResults () {
@@ -129,27 +128,19 @@ export const FlexBox = (Composed, componentStyles = {}) => class extends Compone
   }
 
   componentWillMount () {
-    const { setStyle: setStyleFunc, path} = this.context.styleTools.setStyle(this.flexStyles);
-
-    this.styleTools.setStyle = setStyleFunc;
-    this.pathToNode = path;
+    ({ setStyle: this.styleTools.setStyle,
+      path: this.pathToNode } = this.context.styleTools.setStyle(this.flexStyles));
 
     this.context.waitForLayoutCalculation(this.handleLayoutCalculation);
-  }
-
-  componentWillReceiveProps () {
-    console.log('FlexItem receiving props');
   }
 
   componentWillReceiveProps (nextProps) {
-    const { svgStyles, flexStyles } = partitionStyles(nextProps.style)
-    const { setStyle: setStyleFunc, path} = this.context.styleTools.setStyle(flexStyles);
+    const { flexStyles } = partitionStyles(nextProps.style);
 
-    this.styleTools.setStyle = setStyleFunc;
-    this.pathToNode = path;
+    ({ setStyle: this.styleTools.setStyle,
+      path: this.pathToNode } = this.context.styleTools.setStyle(flexStyles));
 
     this.context.waitForLayoutCalculation(this.handleLayoutCalculation);
-
   }
 
   getChildContext () {

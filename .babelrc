@@ -2,7 +2,7 @@
   "optional": [
     "es7.decorators",
     "es7.classProperties",
-    "optimisation.react.constantElements",
+    "es7.objectRestSpread",
     "runtime"
   ]
 }
