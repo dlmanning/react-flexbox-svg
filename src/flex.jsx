@@ -2,7 +2,6 @@ import React from 'react';
 import EventEmitter from 'wolfy87-eventemitter';
 import computeLayout from 'css-layout';
 import isFlexBoxProperty from './flexbox-props';
-
 const { Component } = React;
 
 function setStyle (style = {}, styles, path = []) {
@@ -66,8 +65,8 @@ export class FlexContext extends Component {
   }
 
   computeLayoutAndBroadcastResults () {
-    const flexLayout = computeLayout(this.stylesRoot);
-    this.layoutNotifier.emit('layout-update', flexLayout);
+    computeLayout(this.stylesRoot);
+    this.layoutNotifier.emit('layout-update', this.stylesRoot);
   }
 
   componentWillMount () {
@@ -124,7 +123,7 @@ export const FlexBox = (Composed, componentStyles = {}) => class extends Compone
   }
 
   handleLayoutCalculation = layout => {
-    this.setState({ layout: this.getMyLayout(layout) });
+    this.setState({ layout: this.getMyLayout(layout).layout });
   }
 
   componentWillMount () {
