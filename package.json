@@ -2,7 +2,8 @@
   "name": "react-flexbox-svg",
   "version": "0.9.3",
   "description": "Flexbox for SVG in React, using css-flexbox",
-  "main": "index.js",
+  "repository": "dlmanning/react-flexbox-svg",
+  "main": "lib/flex.js",
   "scripts": {
     "test-serve": "webpack-dev-server --content-base test/ --hot --inline -d",
     "prepublish": "babel src --out-dir lib"
