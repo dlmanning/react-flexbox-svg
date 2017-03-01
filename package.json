@@ -1,8 +1,9 @@
 {
   "name": "react-flexbox-svg",
   "version": "0.9.3",
-  "description": "",
-  "main": "index.js",
+  "description": "Flexbox for SVG in React, using css-flexbox",
+  "repository": "dlmanning/react-flexbox-svg",
+  "main": "lib/flex.js",
   "scripts": {
     "test-serve": "webpack-dev-server --content-base test/ --hot --inline -d",
     "prepublish": "babel src --out-dir lib"
@@ -10,19 +11,20 @@
   "author": "",
   "license": "ISC",
   "peerDependencies": {
-    "react": "0.14.0-alpha3"
+    "babel-runtime": ">=5.1.11",
+    "react": ">=15.0.0"
   },
   "dependencies": {
-    "babel-runtime": "^5.1.11",
     "css-layout": "^1.0.0",
-    "webpack": "^1.12.1",
-    "webpack-dev-server": "^1.10.1",
     "wolfy87-eventemitter": "^4.2.11"
   },
   "devDependencies": {
     "babel": "^5.1.11",
     "babel-core": "^5.1.10",
     "babel-loader": "^5.0.0",
+    "babel-runtime": "^5.1.11",
+    "react": "^15.0.0",
+    "react-dom": "^15.0.0",
     "webpack": "^1.8.5",
     "webpack-dev-server": "^1.8.0"
   }

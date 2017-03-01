@@ -4,6 +4,10 @@ import computeLayout from 'css-layout';
 import isFlexBoxProperty from './flexbox-props';
 const { Component } = React;
 
+function getDisplayName (Component) {
+  return Component.displayName || Component.name || 'Component';
+}
+
 function setStyle (style = {}, styles, path = []) {
   if (styles.style === undefined) {
     styles.style = style;
@@ -88,7 +92,7 @@ export class FlexContext extends Component {
 }
 
 export const FlexBox = (Composed, componentStyles = {}) => class extends Component {
-  static displayName = 'FlexBox';
+  static displayName = `FlexBox(${getDisplayName(Composed)})`;
 
   static contextTypes = {
     styleTools: React.PropTypes.object.isRequired,

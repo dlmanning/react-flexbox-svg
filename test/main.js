@@ -1,7 +1,7 @@
 'use strict';
 
 import { default as React, Component } from 'react';
-// import Chessboard from './chessboard.jsx';
+import ReactDOM from 'react-dom';
 import Thing from './test.js';
 
 window.React = React;
@@ -12,4 +12,4 @@ class App extends Component {
   }
 }
 
-React.render(<App />, document.getElementById('app'));
+ReactDOM.render(<App />, document.getElementById('app'));

@@ -1,15 +1,10 @@
-# This makes use of parent context, currently only found on react >= 0.14 in [react master](https://github.com/facebook/react).
+react-flexbox-svg
+=================
 
-To install from react master branch:
-```
-git clone https://github.com/facebook/react.git
-cd react
-npm run build
-cd npm-react
-npm link
-```
+Flexbox for SVG in React, using css-flexbox.
 
-Then in your project folder:
-```
-npm link react
-```
+
+License
+-------
+
+This projects is licensed under the ISC license.
