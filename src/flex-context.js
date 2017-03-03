@@ -2,6 +2,13 @@ import React from 'react'
 import EventEmitter from 'wolfy87-eventemitter'
 import computeLayout from 'css-layout'
 
+// FlexContext is responsible for computing layout. It's tightly coupled with
+// Layoutable.
+//
+// The setStyle function is difficult to understand, and so is the flow of
+// control between the context and the Layoutable. This file is substantially
+// unchanged from the original.
+
 const setStyle = (style = {}, styles, path = []) => {
   if (styles.style === undefined) {
     styles.style = style
@@ -36,7 +43,7 @@ export default class FlexContext extends React.Component {
   }
 
   deregister (cb) {
-    this.layoutnotifier.removelistener('layout-update', cb)
+    this.layoutNotifier.removeListener('layout-update', cb)
   }
 
   waitForLayoutCalculation (cb) {
@@ -92,4 +99,3 @@ FlexContext.childContextTypes = {
 FlexContext.propTypes = {
   children: React.PropTypes.node,
 }
-

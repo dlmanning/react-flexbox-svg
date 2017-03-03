@@ -1,6 +1,9 @@
 import React from 'react'
 import { Layoutable as layoutable, LayoutRect } from '.'
 
+// FlexContainer is a convenience class. It's not required that you use it,
+// though it saves you from creating a React class for your container.
+
 const FlexContainer = props => {
   const layoutRect = <LayoutRect layout={ props.layout } { ...props.layoutRectProps } />
 
