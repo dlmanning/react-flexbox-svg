@@ -1,8 +1,4 @@
 {
-  "optional": [
-    "es7.decorators",
-    "es7.classProperties",
-    "es7.objectRestSpread",
-    "runtime"
-  ]
+  "plugins": ["transform-es2015-modules-commonjs", "transform-runtime", "transform-decorators-legacy"],
+  "presets": ["stage-0", "react"]
 }

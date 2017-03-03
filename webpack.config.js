@@ -1,40 +1,34 @@
-'use strict';
 
-const path = require('path');
+
+const path = require('path')
 
 module.exports = {
-  context: __dirname + '/test',
+  context: __dirname + '/examples',
   entry: './main.js',
 
   output: {
     publicPath: '/assets',
-    filename: 'bundle.js'
+    filename: 'bundle.js',
   },
 
   resolve: {
-    modulesDirectories: ['src', 'node_modules'],
-    extensions: ["", ".js", ".jsx"],
-    fallback: path.join(__dirname, "node_modules")
+    modules: [
+      path.join(__dirname, 'src'),
+      'node_modules',
+    ],
+    alias: {
+      'react-flexbox-svg': path.join(__dirname, 'src'),
+    },
   },
-
-  resolveLoader: { fallback: path.join(__dirname, "node_modules") },
 
   module: {
     loaders: [
       {
-        test: /\.js(x)?$/,
+        test: /\.js$/,
         exclude: /node_modules/,
         loader: 'babel-loader',
-        query: {
-          optional: [
-            "es7.decorators",
-            "es7.classProperties",
-            "es7.objectRestSpread",
-            "runtime"
-          ]
-        }
-      }
-    ]
-  }
+      },
+    ],
+  },
 
-};
+}
