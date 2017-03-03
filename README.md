@@ -14,6 +14,8 @@ Based on [react-flexbox-svg][dlmanning/react-flexbox-svg] by
 [dlmanning/react-flexbox-svg]: https://github.com/dlmanning/react-flexbox-svg
 [dlmanning]: https://github.com/dlmanning
 
+[![CircleCI](https://circleci.com/gh/paulmelnikow/react-flexbox-svg/tree/master.svg?style=svg)](https://circleci.com/gh/paulmelnikow/react-flexbox-svg/tree/master)
+
 
 Features
 --------
