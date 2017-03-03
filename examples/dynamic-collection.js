@@ -7,7 +7,7 @@ import setTweenInterval from './tween'
 
 class Circle extends React.Component {
   render () {
-    return <circle style={ this.props.style } cx="40" cy="40" r="40" />
+    return <circle style={ { fill: this.props.color } } cx="40" cy="40" r="40" />
   }
 }
 Circle.layout = { margin: 10, height: 100, width: 100 }
@@ -59,7 +59,7 @@ export default class DynamicCollection extends React.Component {
           <FlexContainer style={ containerStyle } >
             {
               this.colors.map((color, index) =>
-                <LayoutableCircle key={ index } style={ { fill: formatColor(color) } } />)
+                <LayoutableCircle key={ index } color={ formatColor(color) } />)
             }
           </FlexContainer>
 
