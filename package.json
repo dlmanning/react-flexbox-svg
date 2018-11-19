@@ -1,5 +1,5 @@
 {
-  "name": "react-flexbox-svg",
+  "name": "@metabolize/react-flexbox-svg",
   "version": "0.10.0",
   "description": "Flexbox for SVG in React, using css-flexbox",
   "repository": "paulmelnikow/react-flexbox-svg",
