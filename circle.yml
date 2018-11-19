@@ -1,9 +1,0 @@
-machine:
-  node:
-    version: 5.8.0
-
-# deployment:
-#  pages:
-#    branch: master
-#    commands:
-#      - npm run deploy
