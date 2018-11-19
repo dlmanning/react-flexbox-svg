@@ -13,7 +13,7 @@
     "reopen": "opn http://localhost:8080",
     "open": "run-p start reopen",
     "build": "rimraf lib && babel src --out-dir lib",
-    "prepublish": "npm run build"
+    "prepare": "npm run build"
   },
   "files": [
     "lib/**/*.js"
