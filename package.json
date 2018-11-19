@@ -7,7 +7,7 @@
   "scripts": {
     "lint": "eslint \"**/*.js\"",
     "prettier": "prettier --write \"**/*.js\"",
-    "prettier-check": "prettier-check \"**/*.js\"",
+    "prettier-check": "prettier-check \"**/*.{md,js}\"",
     "test": "run-p lint prettier-check",
     "start": "webpack-dev-server --content-base examples/ --hot --inline -d",
     "reopen": "opn http://localhost:8080",
