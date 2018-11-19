@@ -13,6 +13,9 @@
     "build": "rimraf lib && babel src --out-dir lib",
     "prepublish": "npm run build"
   },
+  "files": [
+    "lib/**/*.js"
+  ],
   "author": "",
   "license": "ISC",
   "peerDependencies": {
