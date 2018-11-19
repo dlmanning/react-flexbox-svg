@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 // A utility component to assist in rendering a layout rectangle, useful for
 // debugging your flex layouts.
@@ -30,7 +31,7 @@ const LayoutRect = props => {
 LayoutRect.defaultFormat = { fill: 'transparent' }
 
 LayoutRect.propTypes = {
-  layout: React.PropTypes.object.isRequired,
+  layout: PropTypes.object.isRequired,
 }
 
 export default LayoutRect

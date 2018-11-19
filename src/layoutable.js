@@ -1,6 +1,7 @@
 /* eslint react/prop-types: "off" */
 
 import React from 'react'
+import PropTypes from 'prop-types'
 import LayoutRect from './layout-rect'
 
 // Higher-order component for a flex item or container. Returns a function
@@ -120,13 +121,13 @@ const Layoutable = (computeStyleFromProps = props => {}, options) =>
     }
 
     Wrapped.contextTypes = {
-      styleTools: React.PropTypes.object.isRequired,
-      waitForLayoutCalculation: React.PropTypes.func.isRequired,
-      deregister: React.PropTypes.func.isRequired,
+      styleTools: PropTypes.object.isRequired,
+      waitForLayoutCalculation: PropTypes.func.isRequired,
+      deregister: PropTypes.func.isRequired,
     }
 
     Wrapped.childContextTypes = {
-      styleTools: React.PropTypes.object.isRequired,
+      styleTools: PropTypes.object.isRequired,
     }
 
     return Wrapped

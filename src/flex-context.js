@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import EventEmitter from 'wolfy87-eventemitter'
 import computeLayout from 'css-layout'
 
@@ -91,11 +92,11 @@ export default class FlexContext extends React.Component {
 }
 
 FlexContext.childContextTypes = {
-  styleTools: React.PropTypes.object.isRequired,
-  waitForLayoutCalculation: React.PropTypes.func.isRequired,
-  deregister: React.PropTypes.func.isRequired,
+  styleTools: PropTypes.object.isRequired,
+  waitForLayoutCalculation: PropTypes.func.isRequired,
+  deregister: PropTypes.func.isRequired,
 }
 
 FlexContext.propTypes = {
-  children: React.PropTypes.node,
+  children: PropTypes.node,
 }

@@ -1,2 +1,4 @@
 extends:
   - "plugin:pnm-frontend/react"
+
+parser: "babel-eslint"

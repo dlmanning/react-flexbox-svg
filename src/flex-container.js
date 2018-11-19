@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Layoutable as layoutable, LayoutRect } from '.'
 
 // FlexContainer is a convenience class. It's not required that you use it,
@@ -16,11 +17,11 @@ const FlexContainer = props => {
 }
 
 FlexContainer.propTypes = {
-  layout: React.PropTypes.object.isRequired, // Passed via Layoutable.
-  id: React.PropTypes.string,
-  layoutRectProps: React.PropTypes.object,
-  renderLayoutRect: React.PropTypes.bool,
-  children: React.PropTypes.node,
+  layout: PropTypes.object.isRequired, // Passed via Layoutable.
+  id: PropTypes.string,
+  layoutRectProps: PropTypes.object,
+  renderLayoutRect: PropTypes.bool,
+  children: PropTypes.node,
 }
 
 FlexContainer.defaultProps = {
