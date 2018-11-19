@@ -10,8 +10,8 @@ const generateColors = n => {
       const unpacked = []
 
       for (let i = 0; i < 3; i++) {
-        unpacked.push(Math.floor(packedColor / Math.pow(256, (2 - i))))
-        packedColor %= Math.pow(256, (2 - i))
+        unpacked.push(Math.floor(packedColor / Math.pow(256, 2 - i)))
+        packedColor %= Math.pow(256, 2 - i)
       }
 
       return unpacked

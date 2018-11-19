@@ -17,14 +17,19 @@ const LayoutRect = props => {
   const passthroughProps = Object.assign({}, props)
   delete passthroughProps.layout
 
-  const extraProps = Object.assign({}, LayoutRect.defaultFormat, passthroughProps)
+  const extraProps = Object.assign(
+    {},
+    LayoutRect.defaultFormat,
+    passthroughProps
+  )
 
   return (
     <rect
       className="react-flexbox-svg-layout-rect"
-      width={ layout.width }
-      height={ layout.height }
-      { ...extraProps } />
+      width={layout.width}
+      height={layout.height}
+      {...extraProps}
+    />
   )
 }
 

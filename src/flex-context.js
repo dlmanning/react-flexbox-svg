@@ -23,15 +23,14 @@ const setStyle = (style = {}, styles, path = []) => {
 
   return {
     path: path.slice(),
-    setStyle: function (childStyle) {
+    setStyle: function(childStyle) {
       return setStyle(childStyle, styles, path.slice())
     },
   }
 }
 
 export default class FlexContext extends React.Component {
-
-  constructor (props, context) {
+  constructor(props, context) {
     super(props)
 
     this.layoutNotifier = new EventEmitter()
@@ -43,15 +42,15 @@ export default class FlexContext extends React.Component {
     this.waitForLayoutCalculation = this.waitForLayoutCalculation.bind(this)
   }
 
-  deregister (cb) {
+  deregister(cb) {
     this.layoutNotifier.removeListener('layout-update', cb)
   }
 
-  waitForLayoutCalculation (cb) {
+  waitForLayoutCalculation(cb) {
     this.layoutNotifier.once('layout-update', cb)
   }
 
-  getChildContext () {
+  getChildContext() {
     return {
       styleTools: this.styleTools,
       waitForLayoutCalculation: this.waitForLayoutCalculation,
@@ -59,36 +58,38 @@ export default class FlexContext extends React.Component {
     }
   }
 
-  render () {
-    return <g>{ this.props.children }</g>
+  render() {
+    return <g>{this.props.children}</g>
   }
 
-  startNewStyleTree () {
-    this.stylesRoot = { children: [] };
-    ({ setStyle: this.styleTools.setStyle } = setStyle(undefined, this.stylesRoot))
+  startNewStyleTree() {
+    this.stylesRoot = { children: [] }
+    ;({ setStyle: this.styleTools.setStyle } = setStyle(
+      undefined,
+      this.stylesRoot
+    ))
   }
 
-  computeLayoutAndBroadcastResults () {
+  computeLayoutAndBroadcastResults() {
     computeLayout(this.stylesRoot)
     this.layoutNotifier.emit('layout-update', this.stylesRoot)
   }
 
-  componentWillMount () {
+  componentWillMount() {
     this.startNewStyleTree()
   }
 
-  componentDidMount () {
+  componentDidMount() {
     this.computeLayoutAndBroadcastResults()
   }
 
-  componentWillUpdate () {
+  componentWillUpdate() {
     this.startNewStyleTree()
   }
 
-  componentDidUpdate () {
+  componentDidUpdate() {
     this.computeLayoutAndBroadcastResults()
   }
-
 }
 
 FlexContext.childContextTypes = {

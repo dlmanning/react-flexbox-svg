@@ -10,10 +10,7 @@ module.exports = {
   },
 
   resolve: {
-    modules: [
-      path.join(__dirname, 'src'),
-      'node_modules',
-    ],
+    modules: [path.join(__dirname, 'src'), 'node_modules'],
     alias: {
       'react-flexbox-svg': path.join(__dirname, 'src'),
     },
@@ -28,5 +25,4 @@ module.exports = {
       },
     ],
   },
-
 }

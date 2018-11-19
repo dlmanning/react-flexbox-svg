@@ -6,12 +6,14 @@ import { Layoutable as layoutable, LayoutRect } from '.'
 // though it saves you from creating a React class for your container.
 
 const FlexContainer = props => {
-  const layoutRect = <LayoutRect layout={ props.layout } { ...props.layoutRectProps } />
+  const layoutRect = (
+    <LayoutRect layout={props.layout} {...props.layoutRectProps} />
+  )
 
   return (
-    <g id={ props.id }>
-      { props.renderLayoutRect ? layoutRect : null }
-      { props.children }
+    <g id={props.id}>
+      {props.renderLayoutRect ? layoutRect : null}
+      {props.children}
     </g>
   )
 }
@@ -30,4 +32,6 @@ FlexContainer.defaultProps = {
 
 const computeStyleFromProps = props => props.style
 
-export default layoutable(computeStyleFromProps, { layoutProp: 'layout' })(FlexContainer)
+export default layoutable(computeStyleFromProps, { layoutProp: 'layout' })(
+  FlexContainer
+)
