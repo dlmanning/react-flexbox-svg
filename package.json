@@ -27,7 +27,7 @@
   "dependencies": {
     "css-layout": "^1.0.0",
     "prop-types": "^15.6.2",
-    "wolfy87-eventemitter": "^4.2.11"
+    "wolfy87-eventemitter": "^5.2.5"
   },
   "devDependencies": {
     "@babel/cli": "^7.0.0",
