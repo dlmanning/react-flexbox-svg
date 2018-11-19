@@ -1,9 +1,7 @@
-
-
 const path = require('path')
 
 module.exports = {
-  context: __dirname + '/examples',
+  context: path.join(__dirname, '/examples'),
   entry: './main.js',
 
   output: {

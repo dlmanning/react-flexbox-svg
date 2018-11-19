@@ -1,4 +1,44 @@
-extends:
-  - "plugin:pnm-frontend/react"
+env:
+  browser: true
+
+plugins:
+  - import
 
 parser: "babel-eslint"
+
+parserOptions:
+  sourceType: "module"
+
+extends:
+  - standard
+  - prettier
+  - "standard-jsx"
+  - "standard-react"
+
+settings:
+  react:
+    version: "16.4"
+
+rules:
+  no-console: "error"
+
+  # Disable some rules from eslint:recommended.
+  no-empty: ["error", { "allowEmptyCatch": true }]
+  # Allow unused parameters. In callbacks, removing them seems to obscure
+  # what the functions are doing.
+  no-unused-vars: ["error", {"args": "none"}]
+
+  # These should be disabled by eslint-config-prettier, but are not.
+  react/jsx-curly-spacing: "off"
+  jsx-quotes: "off"
+  # spaced-comment: "off"
+  # standard/object-curly-even-spacing: "off"
+  # one-var: "off"
+
+  # Shields additions.
+  no-var: "error"
+  prefer-const: "error"
+  strict: "error"
+  arrow-body-style: ["error", "as-needed"]
+  object-shorthand: ["error", "properties"]
+  prefer-template: "error"

@@ -14,7 +14,7 @@ const setStyle = (style = {}, styles, path = []) => {
   if (styles.style === undefined) {
     styles.style = style
   } else {
-    const childStyle = { style: style, children: [] }
+    const childStyle = { style, children: [] }
     styles.children.push(childStyle)
     path.push(styles.children.length - 1)
 
