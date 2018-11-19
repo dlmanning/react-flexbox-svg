@@ -23,6 +23,10 @@ jobs:
           key: v1-dependencies-{{ checksum "package.json" }}
 
       - run:
+          name: Check that the build runs
+          command: npm run build
+
+      - run:
           name: Check lint
           command: npm run lint
           when: always
