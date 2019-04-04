@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.11.1 -- Apr 4, 2019
+
+- Add keywords.
+
 ## 0.11.0 -- Apr 4, 2019
 
 - Update dependencies.
