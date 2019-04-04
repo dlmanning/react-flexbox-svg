@@ -1,12 +1,12 @@
 {
-  "name": "@metabolize/react-flexbox-svg",
-  "version": "0.10.1",
+  "name": "react-flexbox-svg",
+  "version": "0.11.0",
   "description": "Flexbox for SVG in React, using css-flexbox",
   "repository": "paulmelnikow/react-flexbox-svg",
   "main": "lib/index.js",
   "scripts": {
     "lint": "eslint \"**/*.js\"",
-    "prettier": "prettier --write \"**/*.js\"",
+    "prettier": "prettier --write \"**/*.{md,js}\"",
     "prettier-check": "prettier-check \"**/*.{md,js}\"",
     "test": "run-p lint prettier-check",
     "start": "webpack-dev-server --content-base examples/ --hot --inline -d",

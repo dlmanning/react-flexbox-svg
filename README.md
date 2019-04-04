@@ -1,8 +1,7 @@
 # react-flexbox-svg
 
-[![npm](https://img.shields.io/badge/npm%20install-%40metabolize%2Freact--flexbox--svg-f441b8.svg?style=flat-square)][npm]
-[![version](https://img.shields.io/npm/v/@metabolize/react-flexbox-svg.svg?style=flat-square)][npm]
-[![license](https://img.shields.io/npm/l/@metabolize/react-flexbox-svg.svg?style=flat-square)][npm]
+[![version](https://img.shields.io/npm/v/react-flexbox-svg.svg?style=flat-square)][npm]
+[![license](https://img.shields.io/npm/l/react-flexbox-svg.svg?style=flat-square)][npm]
 [![build](https://img.shields.io/circleci/project/github/metabolize/react-flexbox-svg.svg?style=flat-square)][build]
 [![code style](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)][prettier]
 
@@ -100,8 +99,8 @@ npm install --save babel-runtime react-flexbox-svg
 
 ## Contribute
 
-- Issue Tracker: https://github.com/paulmelnikow/react-flexbox-svg/issues
-- Source Code: https://github.com/paulmelnikow/react-flexbox-svg/
+- Issue Tracker: https://github.com/metabolize/react-flexbox-svg/issues
+- Source Code: https://github.com/metabolize/react-flexbox-svg/
 
 Pull requests welcome!
 
