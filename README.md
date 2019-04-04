@@ -5,7 +5,7 @@
 [![build](https://img.shields.io/circleci/project/github/metabolize/react-flexbox-svg.svg?style=flat-square)][build]
 [![code style](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)][prettier]
 
-[npm]: https://www.npmjs.com/package/@metabolize/react-flexbox-svg
+[npm]: https://www.npmjs.com/package/react-flexbox-svg
 [build]: https://circleci.com/gh/metabolize/react-flexbox-svg/tree/master
 [prettier]: https://prettier.io/
 
