@@ -2,6 +2,7 @@
   "name": "react-flexbox-svg",
   "version": "0.11.0",
   "description": "Flexbox for SVG in React, using css-flexbox",
+  "keywords": ["svg", "flexbox", "react-component", "layout"],
   "repository": "paulmelnikow/react-flexbox-svg",
   "main": "lib/index.js",
   "scripts": {
